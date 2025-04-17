@@ -1,4 +1,4 @@
-package com.paisapi.pais_api.util;
+package com.paisapi.pais_api.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
