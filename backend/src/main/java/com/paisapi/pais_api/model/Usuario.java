@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "usuario",
         uniqueConstraints = {
@@ -22,15 +23,12 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O login é obrigatório")
     @Column(length = 50, nullable = false, unique = true)
     private String login;
 
-    @NotBlank(message = "A senha é obrigatória")
     @Column(length = 255, nullable = false)
     private String senha;
 
-    @NotBlank(message = "O nome é obrigatório")
     @Column(length = 100, nullable = false)
     private String nome;
 
