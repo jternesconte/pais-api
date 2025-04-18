@@ -1,5 +1,6 @@
 package com.paisapi.pais_api.controller;
 
+import com.paisapi.pais_api.dto.PaisDTO;
 import com.paisapi.pais_api.model.Pais;
 import com.paisapi.pais_api.repository.PaisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,17 @@ public class PaisController {
     @Autowired
     private PaisRepository paisRepository;
 
+    @Autowired
+    private UsuarioController usuarioController;
+
     public List<Pais> getAllPaises() {
         return (List<Pais>) paisRepository.findAll();
     }
 
-    public Pais novoPais(Pais paisInfo) {
+    public Pais novoPais(PaisDTO paisInfo) {
+        if(!usuarioController.isAdministrador()) {
+
+        }
 
         Pais pais = new Pais(
                 paisInfo.getNome(),
@@ -34,14 +41,15 @@ public class PaisController {
     }
 
     public Boolean deletarPais(Long paisId) {
-        paisRepository.deleteById(paisId);
-
         Optional<Pais> paisExcluido = paisRepository.findById(paisId);
+        boolean isPaisExistente = !paisExcluido.isEmpty();
 
-        if(paisExcluido.isEmpty()) {
-            return false;
+
+        paisRepository.deleteById(paisId);
+        if(isPaisExistente) {
+            return true;
         } else {
-        return true;
+            return false;
         }
     }
 }
