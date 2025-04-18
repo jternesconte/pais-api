@@ -7,7 +7,6 @@ import com.paisapi.pais_api.model.Usuario;
 import com.paisapi.pais_api.repository.UsuarioRepository;
 import com.paisapi.pais_api.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

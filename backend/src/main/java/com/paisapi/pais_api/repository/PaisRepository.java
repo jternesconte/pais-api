@@ -8,10 +8,4 @@ import java.util.List;
 public interface PaisRepository extends JpaRepository<Pais, Long> {
 
     List<Pais> findByNomeContainingIgnoreCase(String nome);
-
-    boolean existsByNome(String nome);
-
-    boolean existsBySigla(String sigla);
-
-    boolean existsByGentilico(String gentilico);
 }

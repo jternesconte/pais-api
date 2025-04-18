@@ -2,7 +2,6 @@ package com.paisapi.pais_api.model;
 
 import com.paisapi.pais_api.dto.RoleEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

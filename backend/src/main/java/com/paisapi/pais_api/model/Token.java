@@ -1,9 +1,6 @@
 package com.paisapi.pais_api.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import lombok.*;
 
 import java.sql.Timestamp;
 
