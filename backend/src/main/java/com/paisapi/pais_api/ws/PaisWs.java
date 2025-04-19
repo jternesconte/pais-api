@@ -22,9 +22,9 @@ public class PaisWs {
         return paisController.getAllPaises();
     }
 
-    @Operation(summary = "Cadastra um país")
+    @Operation(summary = "Cadastra ou edita um país")
     @PostMapping("/salvar")
-    public @ResponseBody Pais criarPais(@RequestBody PaisDTO paisBody) {
+    public @ResponseBody Pais criarPais(@RequestBody Pais paisBody) {
         return paisController.novoPais(paisBody);
     }
 
