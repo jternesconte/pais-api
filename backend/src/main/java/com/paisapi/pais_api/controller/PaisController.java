@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -22,22 +23,46 @@ public class PaisController {
         return (List<Pais>) paisRepository.findAll();
     }
 
-    public Pais novoPais(PaisDTO paisInfo) {
+    public Pais novoPais(Pais paisInfo) {
         if(!usuarioController.isAdministrador()) {
 
         }
 
-        Pais pais = new Pais(
-                paisInfo.getNome(),
-                paisInfo.getSigla(),
-                paisInfo.getGentilico()
-        );
+        if(paisInfo.getId() == 0) {
+            List<Pais> paises = getAllPaises();
 
-        return paisRepository.save(pais);
+            for (Pais pais : paises) {
+                if(Objects.equals(paisInfo.getNome(), pais.getNome())) {
+                    return null;
+                } else if(Objects.equals(paisInfo.getSigla(), pais.getSigla())) {
+                    return null;
+                } else if(Objects.equals(paisInfo.getGentilico(), pais.getGentilico())) {
+                    return null;
+                }
+            }
+
+            Pais novoPais = new Pais(
+                    paisInfo.getNome(),
+                    paisInfo.getSigla(),
+                    paisInfo.getGentilico()
+            );
+
+            return paisRepository.save(novoPais);
+        } else {
+            Optional<Pais> paisExistente = paisRepository.findById(paisInfo.getId());
+
+            if(!paisExistente.isEmpty()){
+                paisExistente.get().setNome(paisInfo.getNome());
+                paisExistente.get().setSigla(paisInfo.getSigla());
+                paisExistente.get().setGentilico(paisInfo.getGentilico());
+            }
+
+            return paisRepository.save(paisExistente.get());
+        }
     }
 
     public List<Pais> getPaisesFiltrados(String filtro) {
-        return (List<Pais>) paisRepository.findByNomeContainingIgnoreCase(filtro);
+        return (List<Pais>) paisRepository.findByNomeContaining(filtro);
     }
 
     public Boolean deletarPais(Long paisId) {
