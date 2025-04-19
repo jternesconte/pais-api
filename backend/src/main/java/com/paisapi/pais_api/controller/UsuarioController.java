@@ -3,16 +3,22 @@ package com.paisapi.pais_api.controller;
 import com.paisapi.pais_api.dto.UsuarioAutenticadoDTO;
 import com.paisapi.pais_api.dto.UsuarioDTO;
 import com.paisapi.pais_api.dto.UsuarioLoginDTO;
+import com.paisapi.pais_api.model.Token;
 import com.paisapi.pais_api.model.Usuario;
+import com.paisapi.pais_api.repository.TokenRepository;
 import com.paisapi.pais_api.repository.UsuarioRepository;
 import com.paisapi.pais_api.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+
+import java.util.Optional;
 
 @Controller
 public class UsuarioController {
@@ -22,6 +28,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -55,14 +64,29 @@ public class UsuarioController {
         }
     }
 
-    public String gerarToken(String login) {
-        return "gerado_jwt";
+    public ResponseEntity<String> renovarToken(String token) {
+        Optional<Token> tokenExistente = tokenRepository.findByToken(token);
+
+        if(tokenExistente.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inexistente");
+        }
+
+        Token novoToken = tokenService.renovarValidadeToken(token);
+
+        tokenExistente.get().setToken(novoToken.getToken());
+        tokenExistente.get().setExpiracao(novoToken.getExpiracao());
+
+
+        tokenRepository.save(tokenExistente.get());
+        return ResponseEntity.ok(tokenExistente.get().getToken());
     }
 
     public UsuarioLoginDTO criarUsuario(UsuarioDTO novoUsuario) {
         if(usuarioRepository.findByLogin(novoUsuario.getLogin()) != null) {
             return null;
         }
+
+
 
         String encryptedPassword = passwordEncoder.encode(novoUsuario.getSenha());
         Usuario usuario = new Usuario(
