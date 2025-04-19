@@ -1,0 +1,20 @@
+<div class="flex justify-center items-center h-screen w-full" [formGroup]="formGroup">
+  <p-card header="Login" class="w-full max-w-lg shadow-lg rounded-xl"> 
+    <p-toast  />
+    <div class="flex flex-col gap-6 mt-6">
+      
+      <p-floatlabel>
+        <input class="w-full p-2 border border-gray-300 rounded-lg" type="text" id="login" pInputText (keyup.enter)="onLoginSubmit()" formControlName="login"/>
+        <label for="login">Login</label>  
+      </p-floatlabel>
+
+      <p-floatlabel>
+        <p-password class="w-full" id="senha" [feedback]="false" (keyup.enter)="onLoginSubmit()" formControlName="senha"/>
+        <label for="senha">Senha</label>  
+      </p-floatlabel>
+
+      <p-button label="Login" (onClick)="onLoginSubmit()" class="text-white w-full py-2 rounded-lg"/>
+    
+    </div>
+  </p-card>
+</div>
