@@ -1,0 +1,13 @@
+::ng-deep .p-password {
+   width: 100% !important;
+}
+
+::ng-deep .p-button {
+   width: 100% !important;
+   font-weight: 600 !important;
+}
+
+::ng-deep .p-inputtext {
+   background: none !important;
+   width: 100% !important;
+}
