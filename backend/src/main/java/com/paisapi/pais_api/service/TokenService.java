@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.paisapi.pais_api.model.Token;
 import com.paisapi.pais_api.model.Usuario;
 import com.paisapi.pais_api.repository.TokenRepository;
+import com.paisapi.pais_api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,9 @@ public class TokenService {
 
     @Autowired
     private TokenRepository tokenRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public String gerarToken(Usuario usuario) {
         try {
@@ -74,6 +79,28 @@ public class TokenService {
         } catch(JWTVerificationException e) {
             throw new RuntimeException("");
         }
+    }
+
+    public Token renovarValidadeToken(String token) {
+        Token tokenObj = tokenRepository.findByToken(token).orElseThrow();
+
+        Usuario usuario = usuarioRepository.findByLogin(tokenObj.getLogin());
+
+        Instant novaExpiracao = criaDataExpiracao();
+
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        String novoToken = JWT.create()
+                .withIssuer("pais-api")
+                .withSubject(usuario.getLogin())
+                .withExpiresAt(novaExpiracao)
+                .sign(algorithm);
+
+        Token novoTokenObj = new Token();
+        novoTokenObj.setToken(novoToken);
+        novoTokenObj.setLogin(usuario.getLogin());
+        novoTokenObj.setExpiracao(Timestamp.from(novaExpiracao));
+
+        return novoTokenObj;
     }
 
     private Instant criaDataExpiracao() {
