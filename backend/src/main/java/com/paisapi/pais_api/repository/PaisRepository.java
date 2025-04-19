@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PaisRepository extends JpaRepository<Pais, Long> {
 
-    List<Pais> findByNomeContainingIgnoreCase(String nome);
+    List<Pais> findByNomeContaining(String nome);
 }
