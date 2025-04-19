@@ -1,0 +1,96 @@
+<p-menubar class="shadow-md mb-4">
+  <ng-template #start>
+    <div class="text-xl font-bold">Gerenciador de países</div>
+  </ng-template>
+  <ng-template #end>
+    <div class="flex gap-4 items-center">
+      <p-menu [model]="menuItems"></p-menu>
+      <div class="flex items-center gap-3">
+        <p-toast />
+        <p-confirmDialog></p-confirmDialog>
+        <p-menu #menu [model]="perfilItems" [popup]="true" />
+        <p-button (click)="menu.toggle($event)" [label]="usuario" icon="pi pi-user"/>
+      </div>
+  </div>
+  </ng-template>
+</p-menubar>
+
+<div class="p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-lg font-semibold">Lista de Países</h2>
+    @if(isAdmin) {
+      <p-button icon="pi pi-plus" label="Novo País" (onClick)="openForm(null)"></p-button>
+    }
+  </div>
+
+  <div class="flex items-center gap-2">
+    <input
+      type="text"
+      pInputText
+      placeholder="Buscar por nome"
+      [(ngModel)]="filtroNome"
+      (keyup.enter)="buscarPorNome()"
+      class="p-inputtext-sm"
+    />
+    <p-button icon="pi pi-search" (onClick)="buscarPorNome()" severity="secondary" class="p-button-sm"></p-button>
+  </div>
+  <p-table
+    [value]="paises"
+    [paginator]="true"
+    [rows]="5"
+    [sortMode]="'multiple'"
+    [responsiveLayout]="'scroll'">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nome">Nome <p-sortIcon field="nome"></p-sortIcon></th>
+        <th pSortableColumn="sigla">Sigla <p-sortIcon field="sigla"></p-sortIcon></th>
+        <th pSortableColumn="gentilico">Gentílico <p-sortIcon field="gentilico"></p-sortIcon></th>
+        @if (isAdmin) {
+          <th>Ações</th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-pais>
+      <tr>
+        <td>{{ pais.nome }}</td>
+        <td>{{ pais.sigla }}</td>
+        <td>{{ pais.gentilico }}</td>
+        @if (isAdmin) {
+          <td class="flex gap-2">
+            <p-button icon="pi pi-pencil" (onClick)="openForm(pais)"></p-button>
+            <p-button icon="pi pi-trash" severity="danger" (onClick)="deletePais(pais.id)"></p-button>
+          </td>
+        }
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>
+
+<p-dialog header="Cadastro de País" [(visible)]="visibleDialog" [modal]="true" [closable]="true" [style]="{ width: '400px' }">
+  <form [formGroup]="formPais" (ngSubmit)="salvarPais()">
+    <div class="flex flex-col gap-6 mt-6">
+      <p-floatlabel>
+        <input class="w-full p-2 border border-gray-300 rounded-lg" type="text" id="nome" pInputText (keyup.enter)="salvarPais()" formControlName="nome"/>
+        <label for="nome">Nome</label>  
+      </p-floatlabel>
+  
+      <p-floatlabel>
+        <input class="w-full p-2 border border-gray-300 rounded-lg" type="text" id="sigla" pInputText (keyup.enter)="salvarPais()" formControlName="sigla"/>
+        <label for="sigla">Sigla</label>  
+      </p-floatlabel>
+  
+      <p-floatlabel>
+        <input class="w-full p-2 border border-gray-300 rounded-lg" type="text" id="gentilico" pInputText (keyup.enter)="salvarPais()" formControlName="gentilico"/>
+        <label for="gentilico">Gentílico</label>  
+      </p-floatlabel>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <p-button label="Cancelar" (onClick)="visibleDialog = false" severity="danger"></p-button>
+      <p-button label="Salvar" type="submit" [disabled]="formPais.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
