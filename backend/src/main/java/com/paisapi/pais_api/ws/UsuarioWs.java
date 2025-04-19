@@ -6,6 +6,7 @@ import com.paisapi.pais_api.dto.UsuarioDTO;
 import com.paisapi.pais_api.dto.UsuarioLoginDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,9 +23,8 @@ public class UsuarioWs {
     }
 
     @GetMapping("/renovar-ticket")
-    public Boolean renovarTicket() {
-//        return usuarioController.autenticarUsuario("321", "321");
-        return true;
+    public ResponseEntity<String> renovarTicket(@RequestParam String token) {
+        return usuarioController.renovarToken(token);
     }
 
     @Operation(summary = "Cadastra um usuário")
