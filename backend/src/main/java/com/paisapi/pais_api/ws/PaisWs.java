@@ -1,7 +1,6 @@
 package com.paisapi.pais_api.ws;
 
 import com.paisapi.pais_api.controller.PaisController;
-import com.paisapi.pais_api.dto.PaisDTO;
 import com.paisapi.pais_api.model.Pais;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;

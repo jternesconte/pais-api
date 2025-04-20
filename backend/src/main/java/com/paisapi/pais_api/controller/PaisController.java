@@ -1,6 +1,5 @@
 package com.paisapi.pais_api.controller;
 
-import com.paisapi.pais_api.dto.PaisDTO;
 import com.paisapi.pais_api.model.Pais;
 import com.paisapi.pais_api.repository.PaisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
