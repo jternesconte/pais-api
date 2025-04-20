@@ -15,7 +15,7 @@ import { UsuarioService } from '../../shared/services/usuario.service';
 import { Pais } from '../../models/Pais';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -40,7 +40,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     ToastModule,
     InputGroupModule,
     InputGroupAddonModule,
-    InputTextModule
+    InputTextModule,
+    RouterModule
   ],
   providers: [ConfirmationService, MessageService]
 })
@@ -50,7 +51,6 @@ export class PaisesComponent implements OnInit {
   isAdmin = false;
   paises: PaisDTO[] = [];
   formPais: FormGroup;
-  menuItems = [{ label: 'Países', icon: 'pi pi-globe', command: () => {} }];
   visibleDialog: boolean = false;
   isEditar: boolean = false;
   perfilItems: MenuItem[] = [];
@@ -88,7 +88,7 @@ export class PaisesComponent implements OnInit {
             }
           ]
       }
-  ];
+    ];
     this.carregarPaises();
   }
 
