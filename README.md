@@ -46,6 +46,11 @@ cd frontend
 npm run dev
 ```
 
+## 🌐 URL da aplicação
+
+Acesse no navegador:
+http://localhost:4200
+
 ## 🗄️ Acesso ao banco de dados (H2)
 
 Acesse no navegador:
