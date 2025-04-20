@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 
@@ -11,9 +11,14 @@ import { CardModule } from 'primeng/card';
 })
 export class MenuInicialComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    if(!localStorage.getItem('token')) {
+      this.router.navigate(['/login']);
+    }
   }
 
   abrirSwagger() {
