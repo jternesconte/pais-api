@@ -76,6 +76,9 @@ export class PaisesComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(!localStorage.getItem('token')) {
+      this.router.navigate(['/login']);
+    }
     this.perfilItems = [
       {
           items: [
