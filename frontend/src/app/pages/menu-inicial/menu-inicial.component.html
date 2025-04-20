@@ -1,0 +1,16 @@
+<div class="flex flex-col justify-center items-center h-full text-center p-5 bg-primary-reverse">
+  <div class="mb-4">
+    <h1 class="text-4xl font-bold text-primary mb-2">🌍 Gerenciador de Países</h1>
+    <p class="text-lg text-color-secondary">
+      Bem-vindo! Gerencie, edite e visualize países de forma simples e eficiente.
+    </p>
+  </div>
+
+  <div class="flex gap-3">
+    <p-button label="Ir para Lista de Países" icon="pi pi-globe" class="p-button-lg" routerLink="/paises"></p-button>
+    <p-button label="Documentação API" icon="pi pi-book" class="p-button-outlined p-button-lg" 
+      (onClick)="abrirSwagger()"></p-button>
+    <p-button label="Banco de dados" icon="pi pi-database" class="p-button-outlined p-button-lg" 
+    (onClick)="abrirBanco()"></p-button>
+  </div>
+</div>
